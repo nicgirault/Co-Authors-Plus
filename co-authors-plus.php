@@ -777,7 +777,7 @@ class CoAuthors_Plus {
 			if ( ! $this->has_author_terms( $post_id ) ) {
 				$user = get_userdata( $post->post_author );
 				if ( $user ) {
-					$this->add_coauthors( $post_id, array( $user->user_login ) );
+					$this->add_coauthors( $post_id, array( $user->user_nicename ) );
 				}
 			}
 		}
@@ -803,14 +803,14 @@ class CoAuthors_Plus {
 
 		// Best way to persist order
 		if ( $append ) {
-			$existing_coauthors = wp_list_pluck( get_coauthors( $post_id ), 'user_login' );
+			$existing_coauthors = wp_list_pluck( get_coauthors( $post_id ), 'user_nicename' );
 		} else {
 			$existing_coauthors = array();
 		}
 
 		// A co-author is always required
 		if ( empty( $coauthors ) ) {
-			$coauthors = array( $current_user->user_login );
+			$coauthors = array( $current_user->user_nicename );
 		}
 
 		// Set the coauthors
@@ -829,7 +829,7 @@ class CoAuthors_Plus {
 		// update to the first WP_User $coauthor
 		$post_author_user = get_user_by( 'id', get_post( $post_id )->post_author );
 		if ( empty( $post_author_user )
-			|| ! in_array( $post_author_user->user_login, $coauthors ) ) {
+			|| ! in_array( $post_author_user->user_nicename, $coauthors ) ) {
 			foreach ( $coauthor_objects as $coauthor_object ) {
 				if ( 'wpuser' == $coauthor_object->type ) {
 					$new_author = $coauthor_object;
@@ -869,7 +869,7 @@ class CoAuthors_Plus {
 
 				if ( $post_ids ) {
 					foreach ( $post_ids as $post_id ) {
-						$this->add_coauthors( $post_id, array( $reassign_user->user_login ), true );
+						$this->add_coauthors( $post_id, array( $reassign_user->user_nicename ), true );
 					}
 				}
 			}
